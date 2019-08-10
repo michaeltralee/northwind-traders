@@ -1,0 +1,381 @@
+<!doctype html>
+<!-- Michael Finnegan, Kerry ETB 2019 -->
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+      <title>View Order</title>
+       <!-- Bootstrap core CSS --> 
+      <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+      <!-- Custom styles for this template -->
+      <link href="/static/css/modern-business.css" rel="stylesheet">
+      <style>
+         #OrdersTbl {
+         border-collapse: collapse;
+         }
+         #OrdersTbl td{
+         border: 1px solid gray;
+         padding: 2px;
+         text-align: left;
+         }
+         #ShipViaDiv{
+         border: 1px solid gray;
+         padding: 2px;
+         }
+         #tbl2{
+         border-collapse: collapse;
+         }
+         #tbl2 td{
+         text-align: center;
+         margin: auto;
+         border: 0px solid green;
+         }
+         #orderDetailsTbl{
+         border-collapse: collapse;
+         }
+         #outer{
+         width: 96%;
+         margin: auto;
+         border: 1px solid green;
+         }
+         #totalsTbl{
+         float: right;
+         }
+      </style>
+   </head>
+   <body>
+
+   <!-- Bootstrap core JavaScript -->
+   <script src="/static/js/jquery.js"></script>
+   <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <!-- Page Content -->
+   <div class="container">
+   <div class="row">
+   <div class="col-12">
+
+
+
+
+      <div id="outer">
+         <table id="OrdersTbl" border="1" width="100%">
+            <tr>
+               <td width="6%">Bill To:</td>
+               <td id="CompanyName" colspan="3"></td>
+               <td width="11%">Ship To:</td>
+               <td id="ShipName" colspan="3"></td>
+            </tr>
+            <tr>
+               <td width="5%" rowspan="3">&nbsp;</td>
+               <td id="Address" width="42%" colspan="3">
+               </td>
+               <td width="11%" rowspan="3">&nbsp;</td>
+               <td id="ShipAddress" width="42%" colspan="3">
+               </td>
+            </tr>
+            <tr>
+               <td id="City" width="12%"></td>
+               <td width="13%">&nbsp;</td>
+               <td id="PostalCode" width="15%"></td>
+               <td id="ShipCity" width="11%"></td>
+               <td width="12%">&nbsp;</td>
+               <td id="ShipPostalCode" width="19%"></td>
+            </tr>
+            <tr>
+               <td id="Country" colspan="3"></td>
+               <td id="ShipCountry" colspan="3"></td>
+            </tr>
+            <tr>
+               <td width="15%" colspan="2">Sales person</td>
+               <td id="SalesPerson" colspan="2"></td>
+               <td width="52%" colspan="4">
+                  <fieldset id="ShipViaDiv" align="center">
+                     <legend>Ship Via:</legend>
+                     <table id="tbl2" width="100%">
+                        <tr>
+                           <td>
+                              <input id="ShipVia1" type="checkbox" name="Speedy" value="ON"> Speedy &nbsp;
+                           </td>
+                           <td>
+                              <input id="ShipVia2" type="checkbox" name="United" value="ON"> United &nbsp;
+                           </td>
+                           <td>
+                              <input id="ShipVia3" type="checkbox" name="Federal" value="ON"> Federal &nbsp;
+                           </td>
+                        </tr>
+                     </table>
+                  </fieldset>
+               </td>
+            </tr>
+            <tr>
+               <td width="12.5%">Order ID</td>
+               <td id="OrderId" width="12.5%"></td>
+               <td width="12.5%">Order Date</td>
+               <td id="OrderDate" width="12.5%"></td>
+               <td width="12.5%">
+                  Required Date
+               </td>
+               <td id="RequiredDate" width="12.5%"></td>
+               <td width="12.5%">Shipped Date</td>
+               <td id="ShippedDate" width="12.5%"></td>
+            </tr>
+         </table>
+         <br>
+         <table id="orderDetailsTbl" border="1" width="100%">
+            <thead>
+               <tr>
+                  <th width="20%">Product</th>
+                  <th width="20%">Unit Price</th>
+                  <th width="20%">Quantity</th>
+                  <th width="20%">Discount</th>
+                  <th width="20%">Extended Price</th>
+               </tr>
+            </thead>
+            <tbody id="orderDetailsBody">
+               
+            </tbody>
+         </table>
+         <table id="totalsTbl" border="1" width="20%" style="border-collapse: collapse">
+            <tr>
+               <td align="right">Subtotal &nbsp;</td>
+               <td id="SubTotal" align="right"></td>
+            </tr>
+            <tr>
+               <td align="right">Freight &nbsp;</td>
+               <td id="Freight" align="right"></td>
+            </tr>
+            <tr>
+               <td align="right">Total &nbsp;</td>
+               <td id="ExtendedTotal" align="right"></td>
+            </tr>
+         </table>
+      </div> <!--Outer-->
+
+      </div> <!-- col-12-->
+      </div> <!-- row -->
+      </div> <!-- container-->
+
+	<!-------------------------------------------------------------------------------->
+	<script>
+	/* This is an example of an order object received via ajax from Python.
+		There are two outer keys: "order_details" and "orders".
+		"orders" value is one single object, whereas "order_details" value is an
+		array of objects, one for each row.
+		{
+		  "order_details": [
+			{
+			  "Discount": 0,
+			  "OrderID": 10966,
+			  "ProductID": 37,
+			  "ProductName": "Gravad lax",
+			  "Quantity": 8,
+			  "Total": "208.00",
+			  "UnitPrice": 26
+			},
+			{
+			  "Discount": 0.15,
+			  "OrderID": 10966,
+			  "ProductID": 56,
+			  "ProductName": "Gnocchi di nonna Alice",
+			  "Quantity": 12,
+			  "Total": "387.60",
+			  "UnitPrice": 38
+			},
+			{
+			  "Discount": 0.15,
+			  "OrderID": 10966,
+			  "ProductID": 62,
+			  "ProductName": "Tarte au sucre",
+			  "Quantity": 12,
+			  "Total": "502.86",
+			  "UnitPrice": 49.3
+			}
+		  ],
+		  "orders": {
+			"Address": "Hauptstr. 29",
+			"City": "Bern",
+			"CompanyName": "Chop-suey Chinese",
+			"Country": "Switzerland",
+			"CustomerID": "CHOPS",
+			"Freight": 27.19,
+			"OrderDate": "1998-03-20",
+			"OrderId": 10966,
+			"Phone": "0452-076545",
+			"PostalCode": "3012",
+			"Region": "",
+			"RequiredDate": "1998-04-17",
+			"SalesPerson": "Margaret Peacock",
+			"ShipAddress": "Hauptstr. 31",
+			"ShipCity": "Bern",
+			"ShipCountry": "Switzerland",
+			"ShipName": "Chop-suey Chinese",
+			"ShipPostalCode": "3012",
+			"ShipRegion": "",
+			"ShipVia": 1,
+			"ShippedDate": "1998-04-08"
+		  }
+		}
+	*/
+	function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
+	//-----------------------------------------------------
+	//Given an Id reference in the DOM, set a value to it.
+	function setIdValue( id, value){
+		let idObj = document.getElementById(id);
+		if (idObj)
+		{
+			idObj.innerText = value;
+		}
+		return idObj;
+	}
+	/*-----------------------------------------------------
+		Set all of the values belonging to an order in the 
+		Order HTML template except for the order_detsils values,
+		which will be done deperately by createOrderDetailsRows(Order)
+		because the order_details can have 1 or more rows, and these
+		must be created dynamically based on the contents of the array
+		of objects at key 'order_details' in the big orders object.
+	*/
+	function setValuesInDOM(myObj){
+		
+		var Orders = myObj['orders'] || null;
+		if (Orders)
+		{		
+			var keys = Object.keys(Orders);
+			for (let i = 0; i < keys.length;  i +=1)
+			{
+				let k = keys[i];
+				let v = Orders[k];
+				setIdValue(k, v);
+			}
+			var shipVia = (+Orders['ShipVia']);
+			
+			for(let i = 1; i <= 3; i += 1)
+			{
+				let obj = document.getElementById('ShipVia'+i);
+				
+				if( i == shipVia){
+					obj['checked'] = 'checked';
+				}else{
+					obj['checked'] = false;
+				}
+			}
+
+		}else{
+			alert("Missing orders key");
+		}
+	}
+	/*---------------------------------------------------------
+		Create a row of 5 cells based on the row data in a Row object.
+		a row object looks like this:
+		{
+		  "Discount": 0.15,
+		  "OrderID": 10808,
+		  "ProductID": 56,
+		  "ProductName": "Gnocchi di nonna Alice",
+		  "Quantity": 20,
+		  "Total": "646.00",
+		  "UnitPrice": 38
+		},
+	*/
+
+	function getOrderDetailsHTMLRow(rowObj){
+		if(! rowObj){
+			return '<tr><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td></tr>';
+		}
+		
+		var keys = ['ProductName', 'UnitPrice', 'Quantity', 'Discount', 'Total'];
+		var aRow = '<tr>';
+		var total = 0;
+		for(let i = 0; i < keys.length; i += 1)
+		{
+				let k = keys[i];
+				let v = rowObj[k];
+				switch(i){					
+					case 1:
+						//Unit Price
+						v = (+v).toFixed(2);
+						break;					
+					case 3:
+						// Discount: change 0.05 to 5%
+						v = +v;
+						v = (v * 100).toFixed(0) + '%';
+						break;
+					case 4:
+						//The caller needs the line total
+						total = v;
+						break;
+					default:
+						break;
+				}
+				aRow += '<td>' + v + '</td>';
+		}
+		aRow += '</tr>';
+		return {'aRow': aRow, 'total': total };
+	}
+	/*-----------------------------------------------------
+	*/
+	function createOrderDetailsRows(Order){
+		var orderDetails = Order['order_details'] || null;
+		var bodyRows = '';
+		var subTotal = 0;
+		if(! orderDetails){
+			bodyRows = '<tr><td>Missing data</td><td>.</td><td>.</td><td>.</td><td>.</td></tr>';
+		}else{
+		
+			for(let i = 0; i < orderDetails.length; i += 1)
+			{
+				let rowObj = orderDetails[i];
+				let obj = getOrderDetailsHTMLRow(rowObj);
+
+				bodyRows += obj['aRow'];
+				subTotal += +obj['total'];
+			}
+		}
+		body = document.getElementById('orderDetailsBody');
+		body.innerHTML = bodyRows;
+		document.getElementById('SubTotal').innerText = (subTotal).toFixed(2);
+		var total = +Order['orders']['Freight'] + subTotal;
+		document.getElementById('ExtendedTotal').innerText = (total).toFixed(2);
+	}
+
+	//-----------------------------------------------------
+		$(function()
+		{
+			var orderId = getParameterByName('id');
+			orderId = JSON.stringify(orderId);
+			$.ajax({
+			  method: "POST",
+			  url: "/getajaxorder",
+			  data: { OrderID: orderId }
+			})
+			.done(function( resp ) {
+				console.log(resp);
+				//Display the values of main part of the Order form
+				//from the "orders" object
+				setValuesInDOM(resp);
+
+				createOrderDetailsRows(resp);
+
+				return false;
+			})
+			.fail(function(){
+				alert("Ajax Failed");
+			});
+  
+	});
+//---------------------------------------------------------	
+
+
+
+
+	</script>
+   </body>
+</html>

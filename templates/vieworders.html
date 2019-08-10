@@ -1,0 +1,570 @@
+{% extends 'base.html' %}
+{% block nav_orders %}active{% endblock %}
+{% block nav_vieworders %}active{% endblock %}
+{% block content %}
+<style>
+  .display thead tr th{
+    text-align: left !important;
+    padding: 10px !important;
+    color: green;
+  }
+
+   </style>
+   <br>
+    <h3>Customer Orders</h3>
+
+
+<div class="row">
+<div class="col-12">
+  <table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>OrderID</th>
+            <th>CustomerID</th>
+            <th>Company Name</th>
+            <th>Order Date</th>
+            <th>Price</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+  
+</table>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-12">
+
+ <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle"></h3>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+
+      <style>
+         #OrdersTbl {
+         border-collapse: collapse;
+         }
+         #OrdersTbl td{
+         border: 1px solid gray;
+         padding: 2px;
+         text-align: left;
+         }
+         #ShipViaDiv{
+         border: 1px solid gray;
+         padding: 2px;
+         }
+         #tbl2{
+         border-collapse: collapse;
+         }
+         #tbl2 td{
+         text-align: center;
+         margin: auto;
+         border: 0px solid green;
+         }
+         #orderDetailsTbl{
+         border-collapse: collapse;
+         }
+         #outer{
+         width: 96%;
+         margin: auto;
+         border: 1px solid green;
+         }
+         #totalsTbl{
+         float: right;
+         }
+		.center-cell td, .center-cell th{		 	
+		text-align: center;
+		vertical-align: middle;
+		}
+		fieldset, legend{
+		font-size: 14px;
+		}
+		fieldset{
+		border: 1px solid green;
+		vertical-align: middle;
+		margin:0px;
+		}
+		.btn-edit{
+			background-color: #1673c9;
+			border-color: #1673c9;
+		}
+		.btn-edit:hover{
+			background-color: #155fa3;
+			border-color: #155fa3;
+		}
+
+      </style>
+   </head>
+   <body>
+
+      <!-- Page Content -->
+   <div class="container">
+   <div class="row">
+   <div class="col-12">
+
+
+
+
+      <div id="outer">
+         <table id="OrdersTbl" border="1" width="100%">
+            <tr>
+               <td width="6%">Bill To:</td>
+               <td id="CompanyName" colspan="3"></td>
+               <td width="11%">Ship To:</td>
+               <td id="ShipName" colspan="3"></td>
+            </tr>
+            <tr>
+               <td width="5%" rowspan="3">&nbsp;</td>
+               <td id="Address" width="42%" colspan="3">
+               </td>
+               <td width="11%" rowspan="3">&nbsp;</td>
+               <td id="ShipAddress" width="42%" colspan="3">
+               </td>
+            </tr>
+            <tr>
+               <td id="City" width="12%"></td>
+               <td width="13%">&nbsp;</td>
+               <td id="PostalCode" width="15%"></td>
+               <td id="ShipCity" width="11%"></td>
+               <td width="12%">&nbsp;</td>
+               <td id="ShipPostalCode" width="19%"></td>
+            </tr>
+            <tr>
+               <td id="Country" colspan="3"></td>
+               <td id="ShipCountry" colspan="3"></td>
+            </tr>
+            <tr>
+               <td width="15%" colspan="2">Sales person</td>
+               <td id="SalesPerson" colspan="2"></td>
+               <td width="52%" colspan="4">
+                  <fieldset id="ShipViaDiv" align="center">
+                     <legend>Ship Via:</legend>
+                     <table id="tbl2" width="100%">
+                        <tr>
+                           <td>
+                              <input id="ShipVia1" type="checkbox" name="Speedy" value="ON"> Speedy &nbsp;
+                           </td>
+                           <td>
+                              <input id="ShipVia2" type="checkbox" name="United" value="ON"> United &nbsp;
+                           </td>
+                           <td>
+                              <input id="ShipVia3" type="checkbox" name="Federal" value="ON"> Federal &nbsp;
+                           </td>
+                        </tr>
+                     </table>
+                  </fieldset>
+               </td>
+            </tr>
+            <tr>
+               <td width="12.5%">Order ID</td>
+               <td id="OrderId" width="12.5%"></td>
+               <td width="12.5%">Order Date</td>
+               <td id="OrderDate" width="12.5%"></td>
+               <td width="12.5%">
+                  Required Date
+               </td>
+               <td id="RequiredDate" width="12.5%"></td>
+               <td width="12.5%">Shipped Date</td>
+               <td id="ShippedDate" width="12.5%"></td>
+            </tr>
+         </table>
+         <br>
+         <table id="orderDetailsTbl" border="1" width="100%" class="center-cell">
+            <thead>
+               <tr>
+                  <th width="20%">Product</th>
+                  <th width="20%">Unit Price</th>
+                  <th width="20%">Quantity</th>
+                  <th width="20%">Discount</th>
+                  <th width="20%">Extended Price</th>
+               </tr>
+            </thead>
+            <tbody id="orderDetailsBody">
+               
+            </tbody>
+         </table>
+         <table id="totalsTbl" border="1" width="20%" style="border-collapse: collapse">
+            <tr>
+               <td align="right">Subtotal &nbsp;</td>
+               <td id="SubTotal" align="right"></td>
+            </tr>
+            <tr>
+               <td align="right">Freight &nbsp;</td>
+               <td id="Freight" align="right"></td>
+            </tr>
+            <tr>
+               <td align="right">Total &nbsp;</td>
+               <td id="ExtendedTotal" align="right"></td>
+            </tr>
+         </table>
+      </div> <!--Outer-->
+
+      </div> <!-- col-12-->
+      </div> <!-- row -->
+      </div> <!-- container-->
+
+	<!-------------------------------------------------------------------------------->
+	<script>
+	/* This is an example of an order object received via ajax from Python.
+		There are two outer keys: "order_details" and "orders".
+		"orders" value is one single object, whereas "order_details" value is an
+		array of objects, one for each row.
+		{
+		  "order_details": [
+			{
+			  "Discount": 0,
+			  "OrderID": 10966,
+			  "ProductID": 37,
+			  "ProductName": "Gravad lax",
+			  "Quantity": 8,
+			  "Total": "208.00",
+			  "UnitPrice": 26
+			},
+			{
+			  "Discount": 0.15,
+			  "OrderID": 10966,
+			  "ProductID": 56,
+			  "ProductName": "Gnocchi di nonna Alice",
+			  "Quantity": 12,
+			  "Total": "387.60",
+			  "UnitPrice": 38
+			},
+			{
+			  "Discount": 0.15,
+			  "OrderID": 10966,
+			  "ProductID": 62,
+			  "ProductName": "Tarte au sucre",
+			  "Quantity": 12,
+			  "Total": "502.86",
+			  "UnitPrice": 49.3
+			}
+		  ],
+		  "orders": {
+			"Address": "Hauptstr. 29",
+			"City": "Bern",
+			"CompanyName": "Chop-suey Chinese",
+			"Country": "Switzerland",
+			"CustomerID": "CHOPS",
+			"Freight": 27.19,
+			"OrderDate": "1998-03-20",
+			"OrderId": 10966,
+			"Phone": "0452-076545",
+			"PostalCode": "3012",
+			"Region": "",
+			"RequiredDate": "1998-04-17",
+			"SalesPerson": "Margaret Peacock",
+			"ShipAddress": "Hauptstr. 31",
+			"ShipCity": "Bern",
+			"ShipCountry": "Switzerland",
+			"ShipName": "Chop-suey Chinese",
+			"ShipPostalCode": "3012",
+			"ShipRegion": "",
+			"ShipVia": 1,
+			"ShippedDate": "1998-04-08"
+		  }
+		}
+	*/
+
+	/*---------------------------------------------
+		My version of parseFloat in case the number in the string is comma formatted.
+		return a floating point number from a string, stripping out any commas first.
+	*/
+	function ParseFloat(s){
+		if(s == '' || s == 'undefined' || s == null){
+			return 0.0;
+		}
+		
+		var chr, ss = '', i, l = s.length;
+		s = s.toString();
+		for(i = 0; i < l; i += 1){
+			chr = s.charAt(i);
+			if(((chr >= '0') && (chr <= '9')) || chr == '.' || chr == '-') {
+				ss += chr;
+			}
+		}
+		return parseFloat(ss);
+	}
+	/*----------------------------------------------
+		Receive a string containing a number.
+		return a reformatted version the number with commas seperating the thousands as a string.
+	*/
+	function commaFormatted(amount) {
+		var delimiter = ",";
+		var a = amount.split('.', 2);
+		var d = a[1];
+		var i = parseInt(a[0]);
+		if (isNaN(i)) {
+			return '';
+		}
+		var minus = '';
+		if (i < 0) {
+			minus = '-';
+		}
+		i = Math.abs(i);
+		var n = new String(i);
+		var a = [];
+		while (n.length > 3) {
+			var nn = n.substr(n.length - 3);
+			a.unshift(nn);
+			n = n.substr(0, n.length - 3);
+		}
+		if (n.length > 0) {
+			a.unshift(n);
+		}
+		n = a.join(delimiter);
+		if (d.length < 1) {
+			amount = n;
+		} else {
+			amount = n + '.' + d;
+		}
+		amount = minus + amount;
+		return amount;
+	}
+
+//---------------------------------------------------------
+
+
+	function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
+	//-----------------------------------------------------
+	//Given an Id reference in the DOM, set a value to it.
+	function setIdValue( id, value){
+		let idObj = document.getElementById(id);
+		if (idObj)
+		{
+			idObj.innerText = value;
+		}
+		return idObj;
+	}
+	/*-----------------------------------------------------
+		Set all of the values belonging to an order in the 
+		Order HTML modal template except for the order_detsils values,
+		which will be done deperately by createOrderDetailsRows(Order)
+		because the order_details can have 1 or more rows, and these
+		must be created dynamically based on the contents of the array
+		of objects at key 'order_details' in the big orders object.
+	*/
+	function setValuesInDOM(myObj){
+		
+		var Orders = myObj['orders'] || null;
+		if (Orders)
+		{		
+			var keys = Object.keys(Orders);
+			for (let i = 0; i < keys.length;  i +=1)
+			{
+				let k = keys[i];
+				let v = Orders[k];
+				if(k == 'Freight'){
+					v += '\xa0';
+				}
+				setIdValue(k, v);
+			}
+			var shipVia = (+Orders['ShipVia']);
+			
+			for(let i = 1; i <= 3; i += 1)
+			{
+				let obj = document.getElementById('ShipVia'+i);
+				
+				if( i == shipVia){
+					obj['checked'] = 'checked';
+				}else{
+					obj['checked'] = false;
+				}
+			}
+			setIdValue('modalTitle', 'OrderID: '+ Orders['OrderId']);
+		}else{
+			alert("Missing orders key");
+		}
+	}
+	/*---------------------------------------------------------
+		Create a row of 5 cells based on the row data in a Row object.
+		a row object looks like this:
+		{
+		  "Discount": 0.15,
+		  "OrderID": 10808,
+		  "ProductID": 56,
+		  "ProductName": "Gnocchi di nonna Alice",
+		  "Quantity": 20,
+		  "Total": "646.00",
+		  "UnitPrice": 38
+		},
+	*/
+
+	function getOrderDetailsHTMLRow(rowObj){
+		if(! rowObj){
+			return '<tr><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td></tr>';
+		}
+		
+		var keys = ['ProductName', 'UnitPrice', 'Quantity', 'Discount', 'Total'];
+		var aRow = '<tr>';
+		var total = 0;
+		for(let i = 0; i < keys.length; i += 1)
+		{
+				let k = keys[i];
+				let v = rowObj[k];
+
+				switch(i){					
+					case 1:
+						//Unit Price
+						v = (''+v);
+						v = ParseFloat(v);	
+						v = (v).toFixed(2);
+						
+						break;					
+					case 3:
+						// Discount: change 0.05 to 5%
+						v = +v;
+						v = (v * 100).toFixed(0) + '%';
+						break;
+					case 4:
+						//The caller needs the line total
+						v = (''+v);
+						v = ParseFloat(v);
+						total = v;
+						v = commaFormatted((v).toFixed(2));
+
+						break;
+					default:
+						break;
+				}
+				aRow += '<td>' + v + '</td>';
+		}
+		aRow += '</tr>';
+		return {'aRow': aRow, 'total': total };
+	}
+	/*-----------------------------------------------------
+	*/
+	function createOrderDetailsRows(Order){
+		var orderDetails = Order['order_details'] || null;
+		var bodyRows = '';
+		var subTotal = 0;
+		if(! orderDetails){
+			bodyRows = '<tr><td>Missing data</td><td>.</td><td>.</td><td>.</td><td>.</td></tr>';
+		}else{
+		
+			for(let i = 0; i < orderDetails.length; i += 1)
+			{
+				let rowObj = orderDetails[i];
+				let obj = getOrderDetailsHTMLRow(rowObj);
+
+				bodyRows += obj['aRow'];
+				subTotal += +obj['total'];
+			}
+		}
+		body = document.getElementById('orderDetailsBody');
+		body.innerHTML = bodyRows;
+		document.getElementById('SubTotal').innerText = commaFormatted(''+ (subTotal).toFixed(2)) +'\xa0';
+		var total = +Order['orders']['Freight'] + subTotal;
+		document.getElementById('ExtendedTotal').innerText = commaFormatted(''+ (total).toFixed(2)) +'\xa0';
+	}
+
+/*---------------------------------------------------------	
+	The user has clicked on a "View" button in one of the rows of the orders
+	scrolling table.
+	A popup modal will be displayed automatically.
+	But first we must send the orderID to the Python server via ajax,
+	requesting the full data about that order, including the salesperson
+	and the order_details rows.
+	When the client browser receives the data an event is generated which 
+	triggers JQuery's .done() method and our function plugged into it,
+	to write the values of the received data into the appropriate 
+	positions of the HTML modal template.
+*/
+function getAjaxOrder(orderId){
+	//var orderId = getParameterByName('id');
+	orderId = JSON.stringify(orderId);
+	$.ajax({
+	  method: "POST",
+	  url: "/ajaxgetorder",
+	  data: { OrderID: orderId }
+	})
+	.done(function( resp ) {
+		console.log(resp);
+		//Display the values of main part of the Order form
+		//from the "orders" object
+		setValuesInDOM(resp);
+
+		createOrderDetailsRows(resp);
+
+		return false;
+	})
+	.fail(function(){
+		alert("Ajax Failed");
+	});
+
+}
+//---------------------------------------------------------
+</script>
+		
+		</div> <!-- end modal body -->
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div> <!-- end modal -->
+</div> <!-- end class "col-12" -->
+</div> <!-- end class "row" -->
+
+
+    <script>
+/*---------------------------------------------------------
+	When the page is loaded send a request via ajax to
+	the Python server, requesting a list of all of
+	the customer orders for the year 1998.
+	Then plug all of that data into DataTables scrolling table.
+	Each row displays a summary of each order. When the user
+	click's the view button the full details of that order
+	is displayed in a popup modal box.
+*/
+ $(document).ready(function() {
+	var table = $('#example').DataTable( {
+		"ajax": "/ajaxgetorders",
+    "scrollY":        "350px",
+    "scrollCollapse": true,
+    "paging":         false,
+
+    "columnDefs": [
+            {
+                // The `data` parameter refers to the data for the cell (defined by the
+                // `data` option, which defaults to the column being worked with, in
+                // this case `data: 0`.
+                "render": function ( data, type, row ) {
+                    
+                    //var link = '<a class="btn btn-info btn-sm" href="/getfullorder?id=' + row[0] + '" role="button">View</a>';
+					var link = '<button onclick="getAjaxOrder(' + row[0]+')"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" role="button">View</button>';
+					link += ' <a class="btn btn-info btn-sm btn-edit" href="/editorder?id=' + row[0] + '" role="button">Edit</a>';
+                    return link;
+                },
+                "targets": 5
+            },
+            
+        ],
+
+	} );
+  
+} );
+</script>
+    
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+{% endblock %}

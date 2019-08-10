@@ -1,0 +1,101 @@
+   
+ #OrdersTbl {
+	border-collapse: collapse;
+ }
+ #OrdersTbl td{
+	 border: 1px solid gray;
+	 padding: 2px;
+	 text-align: left;
+ }
+ #ShipViaDiv{
+	 border: 1px solid gray;
+	 padding: 2px;
+ }
+ #tbl2{
+	border-collapse: collapse;
+ }
+ #tbl2 td{
+	 text-align: center;
+	 margin: auto;
+	 border: 0px solid green;
+ }
+ #orderDetailsTbl{
+	border-collapse: collapse;
+ }
+ #outer{
+	 width: 96%;
+	 margin: auto;
+	 border: 1px solid green;
+ }
+ #totalsTbl{
+	float: right;	
+ }
+ #totalsTbl td{
+ 	padding-right: 8px;
+	vertical-align: middle;
+ }
+  #outer2{
+	 width: 96%;
+	 margin: auto;
+	 border: 0px solid brown;
+ }
+ #SalesPerson select{
+ 	text-align: left;
+	border-style: none;
+	width: 98%;
+	background: inherit;
+ }
+ #CompanyName select{
+ 	text-align: left;
+	border-style: none;
+	width: 98%;
+ }
+ .input-style tr td input{
+ 	text-align: left;
+	border-style: none;
+	background: inherit;
+	width: 98%;
+ }
+#ShipViaDiv{
+	font-size: 14px;
+	background: inherit;
+	border-style: none;
+}
+#ShipViaDiv legend{
+	font-size: 14px;
+	background: inherit;
+	
+}
+.productsList{
+ 	text-align: center;
+	border-style: none;
+	width: 98%;
+}
+.orderDetailsInputBox{
+ 	text-align: center;
+	border-style: none;
+	width: 98%;
+}
+
+.orderDetailsTotal{
+ 	text-align: right;
+	
+	width: 98%;
+	padding-right: 8px;
+}
+#orderDetailsTbl th{
+	text-align: center;
+}
+#orderDetailsTbl th:nth-child(5){
+	text-align: right;
+	padding-right: 8px;
+}
+input[name="Freight"]{
+	text-align: right;
+	border-style: none;
+	width: 100%;
+}
+td {
+  height: 20px;
+  vertical-align: middle;
+}
