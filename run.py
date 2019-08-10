@@ -4,13 +4,13 @@ import json
 from flask import Flask, render_template, request, flash, jsonify, json
 from mysql_blacknight_test import BlackNight
 
-USER = os.environ.get('USER')
-PASSWORD = os.environ.get('PASSWORD')
-HOST = os.environ.get('HOST')
+DBUSER = os.environ.get('DBUSER')
+DBPASSWORD = os.environ.get('DBPASSWORD')
+DBHOST = os.environ.get('DBHOST')
 DATABASE = os.environ.get('DATABASE')
 
 # BNight is a global variable and is instantiated here only.
-BNight = BlackNight(USER, PASSWORD, HOST, DATABASE)
+BNight = BlackNight(DBUSER, DBPASSWORD, DBHOST, DATABASE)
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -154,15 +154,21 @@ def ajaxsendorder():
 		Order = json.loads(request.form["Order"])		
 		msg = BNight.commitOrder(Order)
 	except Exception as e:
-		print(f'Got exception of type {type(e)}: {e}')
+		#print(f'Got exception of type {type(e)}: {e}')
 		msg = 'bad'
 	
 	return json.dumps(msg)
 	
 	
 
-
+'''
 if __name__ == '__main__':
 	# BNight = BlackNight(USER, PASSWORD, HOST, DATABASE)
-	app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT') or "5000"), debug=True)
+	app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT') or "5100"), debug=True)
+'''
+if __name__ == '__main__':
+    app.run(host=os.environ.get('IP'),
+            port=int("8080"),
+            debug=True)
+
 
