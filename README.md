@@ -1,4 +1,4 @@
-NorthWind Traders
+<h3>NorthWind Traders</h3>
 
 <p>This is a Milestone 3 student Project I developed as part of my training on the Code Institute Full Stack programming course, at Kerry ETB, Tralee, Ireland</p>
 
@@ -44,7 +44,7 @@ However, you can do the following:
 </ol>
 </p>
 <p>&nbsp;</p>
-<p><font size="5">Technical details</font></p>
+<p><h3>Technical details</h3></p>
 <p>This project is written in Python 3 for the server side and Javascript for 
 the client side. The database query language is MySQL.</p>
 <p>A live demonstration of this project can be seen on the Heroku website at
@@ -107,5 +107,4 @@ a data-centric project on Heroku, and have them host it for free.</p>
 <p>&nbsp;</p>
 <p>Michael Finnegan, Kerry ETB, Tralee, Ireland. © 2019. 
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+
