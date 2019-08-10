@@ -4,7 +4,7 @@ NorthWind Traders
 
 <p>Northwind Traders is a fictions company invented by Microsoft for the purpose of demonstrating their database products, using the Northwind database. Originally Northwind database came out in 1997 with Microsoft Access in order to teach programmers how to use that application.</p>
 
-<p>This website project is based on the way NorthWind Traders database works in Microsoft Access. But all of the functionality is not implemented. At present this website only allows you do do the following: you can view the list of customer orders; you and view the details of each order in a popup modal and you can edit an individual order.</p>
+<p>This website project is based on the way NorthWind Traders database works in Microsoft Access. But all of the functionality is not implemented. At present this website only allows you to do the following: you can view the list of customer orders; you and view the details of each order in a popup modal and you can edit an individual order.</p>
 
 <p>This website uses a MySQL database. It was ported over from the Access .mdb file format.</p>
 
@@ -58,23 +58,23 @@ hosted remotely on a server in Carlow, Ireland. The Python server running on
 Heroku is probably somewhere in San Francisco, California, and the client with 
 his web browser could be anywhere in the world. Yet all of this data passes 
 quickly and seamlessly between the client and the server without the user 
-realising the circuitous path it takes to reach it destination.</p>
+realising the circuitous path it takes to reach its destination.</p>
 <p>The passwords and other variables used to access the database are not stored 
 in the source code on Github. They are setup in the Heroku environment settings 
 page and also in the AWS Cloud9 .bashrc file.</p>
-<p><font size="5">Platforms and tools I used to develop this Project</font></p>
-<p>I have an account on Amazon Web Servers. I developed the project mostly 
-offline on my local computer. I have MySql server runing on my localhost for 
+<p><H3>Platforms and tools I used to develop this Project</H3></p>
+<p>I have an account on Amazon Web Services. I mainly developed the project offline on my local computer. 
+I have MySql server runing on my localhost for 
 testing and development. Then, towards the end of the project, I uploaded all of 
-the files to Cloud9 on AWS. From there I used the Cloud9's bash console to 
+the files to Cloud9 on AWS. From there I used Cloud9's bash console to 
 export the project to Github. I had previously set up a free account on Heroku 
-with automatic deploys setting switched on. I also linked my Heroku account to 
+with the automatic deploys setting switched on, (which polls github regularly for updates ). I also linked my Heroku account to 
 Github. Then I setup the environment variables on Heroku for database access.
 <br>
 <br>
 I used Microsoft's Front Page to help with the complex design of the order form. 
 Although this software is considered outdated by most people, (it was written in 
-2004) still, I find it very useful. <br>
+2004) still, I find it useful. <br>
 I used Bootstrap 4 as the responsive web page framework. I added on customised 
 CSS to improve the appearance of the order form.</p>
 <p>About 65% of the programming is done in Javascript on the client side. I also 
@@ -82,22 +82,23 @@ used the DataTable library from <a href="https://datatables.net/">
 https://datatables.net/</a> and plugged it into the Bootstrap framework. The 
 scrolling, searchable orders table is done in DataTables. I did some programming 
 in Javascript to place an Edit and a View button on each row of the scrolling 
-table, with hyperkinks underneath them to target a dynamic Bootstrap modal popup 
+orders table, with hyperkinks to target a dynamic Bootstrap modal popup 
 box. The modal box is dynamic in the sense that the data for the modal is not 
-hard-coded into the HTML page. The modal box get's its data by making an Ajax 
+hard-coded into the HTML page. The modal box gets its data by making an Ajax 
 request to the server based on the ID value of the row the user clicked on. When 
 the data comes back in (asynchronously) from the server it triggers a previously 
 registered function in JQuery's Ajax done method. This registered method then 
 plugs the relevant bits of data into the appropriate placeholders in the modal 
-box's boilerplate code. This all happens quick quickly that the user doesn't 
-give it a though, but just expect the full details of an order to pop up in a 
+box's boilerplate HTML code. This all happens quite quickly such that the user doesn't 
+give it a thought, but just expects the full details of an order to pop up in the 
 modal box automatically.</p>
 <p>EditPlus 5 is my favourite programming editor. I like it better than Visual 
 Studio Code or PyCharm because it is very easy to use and I like the attractive 
 syntax colouring against a white background. But I also use Visual Studio Code 
-to test and debug the Python code on my localhost. </p>
+to edit, run, test and debug the Python code on my localhost. </p>
 <p>Firefox is my preferred web browser for rendering the web pages and for 
 debugging the Javascript code.</p>
+<p>I use Oracle's MySql Workbench database editor on my localhost to develop and debug my Sql scripts before I embed them into Python as strings.</p>
 <p>&nbsp;</p>
 <p>This Northwind project was developed in just two weeks. It is only a small 
 demonstration of displaying orders and looking into the details of an order. But 
