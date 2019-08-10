@@ -105,7 +105,7 @@ demonstration of displaying orders and looking into the details of an order. But
 it helped me to understand more about Python programming, and also how to put up 
 a data-centric project on Heroku, and have them host it for free.</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
+<p>Michael Finnegan, Kerry ETB, Tralee, Ireland. © 2019. 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
