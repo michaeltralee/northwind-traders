@@ -168,7 +168,7 @@ if __name__ == '__main__':
 '''
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
-            port=int("8080"),
+            port=int(os.environ.get('MYPORT')),
             debug=True)
 
 
